@@ -14,7 +14,6 @@ max_date = today + timedelta(days=14)  # 오늘부터 14일 후까지 예약 가
 with st.form(key='appointment_form'):
     parent_name = st.text_input("학부모님 성함", max_chars=30)
     student_name = st.text_input("학생 이름", max_chars=30)
-    contact_number = st.text_input("연락처", max_chars=13)
     appointment_date = st.date_input("상담 희망일", min_value=min_date, max_value=max_date)
     appointment_time = st.time_input("상담 희망 시간")
     notes = st.text_area("비고", help="추가로 전하고 싶은 말씀이 있으면 적어주세요.")
