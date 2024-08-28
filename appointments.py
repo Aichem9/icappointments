@@ -1,16 +1,21 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # 제목 설정
 st.title("학부모 상담 예약 시스템")
+
+# 현재 날짜를 기준으로 날짜 범위를 설정
+today = datetime.today()
+min_date = today + timedelta(days=1)  # 오늘 다음 날부터 예약 가능
+max_date = today + timedelta(days=14)  # 오늘부터 14일 후까지 예약 가능
 
 # 입력 폼 생성
 with st.form(key='appointment_form'):
     parent_name = st.text_input("학부모님 성함", max_chars=30)
     student_name = st.text_input("학생 이름", max_chars=30)
-    contact_number = st.text_input("연락처", max_chars=13)
-    appointment_date = st.date_input("상담 희망일", min_value=datetime(2023, 8, 28), max_value=datetime(2023, 9, 9))
+    contact_number = st.number_input("연락처", min_value=1000000000, max_value=9999999999999, step=1)
+    appointment_date = st.date_input("상담 희망일", min_value=min_date, max_value=max_date)
     appointment_time = st.time_input("상담 희망 시간")
     notes = st.text_area("비고", help="추가로 전하고 싶은 말씀이 있으면 적어주세요.")
 
@@ -23,7 +28,7 @@ if submit_button:
     new_appointment = pd.DataFrame({
         '학부모님 성함': [parent_name],
         '학생 이름': [student_name],
-        '연락처': [contact_number],
+        '연락처': [str(contact_number)],  # 숫자를 문자열로 변환하여 저장
         '상담 희망일': [appointment_date.strftime('%Y-%m-%d')],
         '상담 희망 시간': [appointment_time.strftime('%H:%M')],
         '비고': [notes]
