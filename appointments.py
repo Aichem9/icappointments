@@ -14,7 +14,7 @@ max_date = today + timedelta(days=14)  # 오늘부터 14일 후까지 예약 가
 with st.form(key='appointment_form'):
     parent_name = st.text_input("학부모님 성함", max_chars=30)
     student_name = st.text_input("학생 이름", max_chars=30)
-    contact_number = st.number_input("연락처", min_value=1000000000, max_value=9999999999999, step=1)
+    contact_number = st.text_input("연락처", max_chars=13)  # 텍스트 형태로 연락처 입력
     appointment_date = st.date_input("상담 희망일", min_value=min_date, max_value=max_date)
     appointment_time = st.time_input("상담 희망 시간")
     notes = st.text_area("비고", help="추가로 전하고 싶은 말씀이 있으면 적어주세요.")
@@ -28,7 +28,7 @@ if submit_button:
     new_appointment = pd.DataFrame({
         '학부모님 성함': [parent_name],
         '학생 이름': [student_name],
-        '연락처': [str(contact_number)],  # 숫자를 문자열로 변환하여 저장
+        '연락처': [contact_number],  # 텍스트 형태로 연락처 저장
         '상담 희망일': [appointment_date.strftime('%Y-%m-%d')],
         '상담 희망 시간': [appointment_time.strftime('%H:%M')],
         '비고': [notes]
